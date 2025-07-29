@@ -3,10 +3,8 @@
 using namespace std;
 
 Department::Department(std::string name) : departmentName(name), courses(nullptr), totalCourses(0) {}
-
 Department::~Department() {
-    delete[] courses;
-}
+    delete[] courses; }
 
 void Department::addCourse(const Course& course) {
     Course* newCourses = new Course[totalCourses + 1];
