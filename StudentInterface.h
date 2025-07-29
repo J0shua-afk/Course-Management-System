@@ -1,8 +1,8 @@
-#pragma once
-class Interface {
-public:
-    virtual void ShowMenu() = 0;
-    virtual ~Interface() {} bb
-};
+#ifndef STUDENTINTERFACE_H
+#define STUDENTINTERFACE_H
+#include "Department.h"
+#include "Cart.h"
+
+class StudentInterface {
 
 
