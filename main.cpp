@@ -60,7 +60,7 @@ int main() {
     loadFromCSV(csvFile);
     int choice;
     do {
-        // Display the initial menu
+        // initial menu
         cout << "\nWelcome to the Course Management System" << endl;
         cout << "1. Student" << endl;
         cout << "2. Admin" << endl;
