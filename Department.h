@@ -16,6 +16,7 @@ public:
     void displayCourses() const;
     std::string getDepartmentName() const;
     int getTotalCourses() const;
+    Course getCourse(int index) const;
 };
 
 #endif
