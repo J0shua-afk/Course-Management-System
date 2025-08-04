@@ -26,3 +26,10 @@ void Department::displayCourses() const {
 
 std::string Department::getDepartmentName() const { return departmentName; }
 int Department::getTotalCourses() const { return totalCourses; }
+Course Department::getCourse(int index) const {
+    if (index >= 0 && index < totalCourses) {
+        return courses[index];
+    } else {
+        throw out_of_range("Invalid course index.");
+    }
+}
