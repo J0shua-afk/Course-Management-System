@@ -31,6 +31,7 @@ void StudentInterface::mainMenu() {
         }
     } while (choice != 3);
 }
+
 void StudentInterface::browseDepartments() {
     if (totalDepartments == 0) {
         cout << "No departments available to browse." << endl;
@@ -57,9 +58,13 @@ void StudentInterface::browseDepartments() {
                 cin >> courseChoice;
 
                 if (courseChoice > 0 && courseChoice <= departments[deptChoice - 1].getTotalCourses()) {
-                    Course selectedCourse = departments[deptChoice - 1].getCourseNumber(courseChoice - 1);
-                    string schedule = selectedCourse.getSchedule();
-                    shoppingCart.addCourseToCart(selectedCourse, schedule);
+                    try {
+                        Course selectedCourse = departments[deptChoice - 1].getCourse(courseChoice - 1); // Use getCourse
+                        string schedule = selectedCourse.getSchedule();
+                        shoppingCart.addCourseToCart(selectedCourse, schedule);
+                    } catch (const out_of_range& e) {
+                        cout << "Error: " << e.what() << endl;
+                    }
                 } else if (courseChoice != 0) {
                     cout << "Invalid course number. Please try again." << endl;
                 }
