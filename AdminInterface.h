@@ -1,6 +1,5 @@
 #ifndef ADMININTERFACE_H
 #define ADMININTERFACE_H
-
 #include "Department.h"
 
 class AdminInterface {
@@ -9,6 +8,7 @@ private:
     int totalDepartments;
 
 public:
+    AdminInterface(Department*& departments, int& totalDepartments);
     AdminInterface();
     ~AdminInterface();
     void listDepartments() const;
