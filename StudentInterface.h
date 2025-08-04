@@ -3,6 +3,6 @@
 #include "Department.h"
 #include "Cart.h"
 
-class StudentInterface {
+class StudentInterface 
 
 
