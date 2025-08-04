@@ -3,9 +3,9 @@
 #include "AdminInterface.h"
 #include "StudentInterface.h"
 using namespace std;
-// Malika leave comments on each function for git commits
+// Malika leave comments for git commits
 
-// Global variables as per the project requirements
+// Global variables 
 Department* StoreDepartments = nullptr;
 int TotalDepartments = 0;
 const char* csvFile = "CourseManagementData.csv";
@@ -20,8 +20,13 @@ void loadFromCSV(const char* filePath) {
     }
 
     file >> TotalDepartments;
-    file.ignore(); // Ignore the newline character after the number of departments
-
+    if (file.fail() || TotalDepartments < 0) {
+        cout << "CSV file is corrupted or empty. Starting fresh." << endl;
+        TotalDepartments = 0;
+        file.close();
+        return;
+    }
+    file.ignore();
     StoreDepartments = new Department[TotalDepartments];
     for (int i = 0; i < TotalDepartments; ++i) {
         string departmentName;
@@ -29,7 +34,7 @@ void loadFromCSV(const char* filePath) {
 
         getline(file, departmentName, ',');
         file >> totalCourses;
-        file.ignore(); // Ignore newline
+        file.ignore(); 
 
         StoreDepartments[i] = Department(departmentName);
 
@@ -40,7 +45,7 @@ void loadFromCSV(const char* filePath) {
             getline(file, courseName, ',');
             getline(file, schedule, ',');
             file >> price;
-            file.ignore(); // Ignore newline
+            file.ignore(); 
 
             Course course("", courseName, schedule, price);
             StoreDepartments[i].addCourse(course);
@@ -51,11 +56,8 @@ void loadFromCSV(const char* filePath) {
     cout << "Data loaded successfully from CSV file." << endl;
 }
 
-// Main function
 int main() {
-    // Load data from the CSV file if it exists
     loadFromCSV(csvFile);
-
     int choice;
     do {
         // Display the initial menu
@@ -66,18 +68,23 @@ int main() {
         cout << "Enter your choice [1, 2, 3]: ";
         cin >> choice;
 
+if (cin.fail()) {
+    cin.clear();
+    cin.ignore(10000, '\n');
+    cout << "Invalid input. Please enter a number." << endl;
+    continue;
+    }
         if (choice == 1) {
             // Student Interface
             StudentInterface studentInterface(StoreDepartments, TotalDepartments);
             studentInterface.mainMenu();
         } else if (choice == 2) {
             // Admin Interface
-            AdminInterface adminInterface;
-
-            // If data has been loaded into StoreDepartments, initialize AdminInterface with the data
-            if (StoreDepartments != nullptr && TotalDepartments > 0) {
-                adminInterface = AdminInterface(StoreDepartments, TotalDepartments);
+            if (TotalDepartments == 0) {
+                cout << "No departments available. Please add a department first." << endl;
+                continue;
             }
+            AdminInterface adminInterface(&StoreDepartments, &TotalDepartments);
 
             int adminChoice;
             do {
@@ -89,6 +96,13 @@ int main() {
                 cout << "5. Exit" << endl;
                 cout << "Enter your choice [1, 2, 3, 4, 5]: ";
                 cin >> adminChoice;
+
+                if (cin.fail()) {
+                    cin.clear();
+                    cin.ignore(10000, '\n');
+                    cout << "Invalid input. Please enter a number." << endl;
+                    continue;
+                }
 
                 switch (adminChoice) {
                 case 1:
@@ -117,7 +131,6 @@ int main() {
         }
     } while (choice != 3);
 
-    // Clean up dynamically allocated memory for StoreDepartments
     delete[] StoreDepartments;
     return 0;
 }
