@@ -3,9 +3,12 @@
 #include <fstream>
 using namespace std;
 
+AdminInterface::AdminInterface(Department*& departments, int& totalDepartments)
+    : departments(departments), totalDepartments(totalDepartments) {}
 AdminInterface::AdminInterface() : departments(nullptr), totalDepartments(0) {}
 AdminInterface::~AdminInterface() {
-    delete[] departments; }
+}
+
 
 void AdminInterface::listDepartments() const {
     for (int i = 0; i < totalDepartments; ++i) {
@@ -63,12 +66,16 @@ void AdminInterface::saveToCSV(const char* filePath) {
         cout << "Error saving file." << endl;
         return;
     }
-
     file << totalDepartments << endl;
     for (int i = 0; i < totalDepartments; ++i) {
-        file << departments[i].getDepartmentName() << "," << departments[i].getTotalCourses() << endl;
-        for (int j = 0; j < departments[i].getTotalCourses(); ++j) {
-            
+        Department& dept = departments[i];
+        file << dept.getDepartmentName() << "," << dept.getTotalCourses() << endl;
+
+        for (int j = 0; j < dept.getTotalCourses(); ++j) {
+            Course course = dept.getCourse(j);
+            file << course.getCourseName() << ","
+                 << course.getSchedule() << ","
+                 << course.getPrice() << endl;
         }
     }
 
