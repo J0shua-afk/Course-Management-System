@@ -6,12 +6,12 @@
 #include "Course.h"
 using namespace std;
 
-// Global variables
+
 Department* StoreDepartments = nullptr;
 int TotalDepartments = 0;
 const char* csvFile = "CourseManagementData.csv";
 
-// Load from CSV
+
 void loadFromCSV(const char* filePath) {
     ifstream file(filePath);
     if (!file.is_open()) {
